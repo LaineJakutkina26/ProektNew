@@ -1,4 +1,6 @@
+
 class HttpModule{
+  
   status(response) {  
     if (response.status >= 200 && response.status < 300) {  
       return Promise.resolve(response)  
@@ -36,4 +38,7 @@ class HttpModule{
     }; 
   }
 let httpModule = new HttpModule();
+
 export {httpModule};
+
+

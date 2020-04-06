@@ -1,9 +1,11 @@
+
 package jsonbuilders;
 
 import entity.Person;
 import javax.json.Json;
 import javax.json.JsonObjectBuilder;
 import javax.json.JsonValue;
+
 
 public class JsonPersonBuilder {
 
@@ -19,5 +21,6 @@ public class JsonPersonBuilder {
                 .add("room", person.getRoom());
         return job.build();
                 
-    }   
+    }
+    
 }

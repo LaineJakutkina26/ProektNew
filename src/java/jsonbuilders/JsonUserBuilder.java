@@ -1,3 +1,4 @@
+
 package jsonbuilders;
 
 import entity.User;
@@ -5,6 +6,7 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.json.JsonValue;
+
 
 public class JsonUserBuilder {
 

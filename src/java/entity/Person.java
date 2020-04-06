@@ -1,4 +1,6 @@
+
 package entity;
+
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Column;
@@ -20,8 +22,10 @@ public class Person implements Serializable {
     private String street;
     private String house;
     private String room;
+
     public Person() {
     }
+
     public Person(String firstname, String lastname, String email, String city, String street, String house, String room) {
         this.firstname = firstname;
         this.lastname = lastname;
@@ -152,5 +156,7 @@ public class Person implements Serializable {
     @Override
     public String toString() {
         return "Person{" + "id=" + id + ", firstname=" + firstname + ", lastname=" + lastname + ", email=" + email + ", city=" + city + ", street=" + street + ", house=" + house + ", room=" + room + '}';
-    }  
+    }
+    
+    
 }

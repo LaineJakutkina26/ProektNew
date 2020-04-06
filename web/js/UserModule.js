@@ -1,3 +1,4 @@
+
 import {httpModule} from './HttpModule.js';
 class UserModule{
     printRegistrationForm(){
@@ -16,7 +17,7 @@ class UserModule{
                   <p class="card-text d-flex justify-content-end">Квартира: <input class="w-50 ml-3" type="text" id="room"></p>
                   <p class="card-text d-flex justify-content-end">Логин: <input class="w-50 ml-3" type="text" id="login"></p>
                   <p class="card-text d-flex justify-content-end">Пароль: <input class="w-50 ml-3" type="password" id="password"></p>
-                  <a href="#" id="btnAddUser" class="btn btn-primary w-100">Зарегистрировать пользователя</a>
+                  <a href="#" id="btnAddUser" class="btn btn-danger w-100">Зарегистрировать пользователя</a>
                 </div>
             </div>
           </div>`;
@@ -60,7 +61,10 @@ class UserModule{
                       document.getElementById('info').innerHTML = 'Новый пользователь добавлен';
                       document.getElementById('content').innerHTML = '';
                   })
+         
       }
+      
 }
 let userModule = new UserModule();
 export {userModule}
+

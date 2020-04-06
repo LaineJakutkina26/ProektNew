@@ -62,7 +62,7 @@ public class LoginController extends HttpServlet {
                 String room = jsonObject.getString("room");
                 String login = jsonObject.getString("login");
                 String password = jsonObject.getString("password");
-                // -------- проверка на null и на "" ---------
+
                 if(null == firstname || "".equals(firstname)
                         || null == firstname || "".equals(firstname)
                         || null == lastname || "".equals(lastname)
@@ -74,8 +74,7 @@ public class LoginController extends HttpServlet {
                         || null == room || "".equals(room)
                         || null == login || "".equals(login)
                         || null == password || "".equals(password)){
-                    // если хотя бы одна переменная не инициирована
-                    // создаем строку в JSON формате и выходим из switch
+
                     job.add("actionStatus", "false")
                             .add("user","null")
                             .add("authStatus", "false")
@@ -86,6 +85,7 @@ public class LoginController extends HttpServlet {
                     }
                     break; 
                 }
+
                 Person person = null;
                 User user = null;
                 try {
@@ -178,10 +178,20 @@ public class LoginController extends HttpServlet {
                     }
                 break;
             case "/logout":
-                
+                session = request.getSession(false);
+                if(session != null){
+                    session.invalidate();
+                }
+                job.add("actionStatus", "true")
+                            .add("user","null")
+                            .add("authStatus", "false")
+                            .add("data", "null");
+                try (Writer writer = new StringWriter()){
+                    Json.createWriter(writer).write(job.build());
+                    json = writer.toString();
+                }
                 break;
         }
-
         if(json != null && !"".equals(json)){
             try (PrintWriter out = response.getWriter()) {
                 out.println(json);

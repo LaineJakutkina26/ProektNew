@@ -1,11 +1,15 @@
+
 import {authModule} from './AuthModule.js';
+
 document.getElementById('enter-menu').onclick=function(){
     toogleMenuActive('enter-menu');
     authModule.printLoginForm();
 }
 document.getElementById('sysout').onclick=function(){
     toogleMenuActive('sysout');
+    authModule.logout();
 }
+
 function toogleMenuActive(elementId){
   let activeElement = document.getElementById(elementId);
   let passiveElements = document.getElementsByClassName("nav-item");
@@ -19,3 +23,4 @@ function toogleMenuActive(elementId){
     }
   }
 }
+authModule.toogleVisibleMenus();
