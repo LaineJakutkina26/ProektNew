@@ -7,6 +7,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 import java.util.logging.Level;
 
+
 public class EncryptPass {
     public String setEncriptPass(String password, String salts){
         password = salts + password;

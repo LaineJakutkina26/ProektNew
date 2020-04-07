@@ -7,7 +7,6 @@ import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.json.JsonValue;
 
-
 public class JsonUserBuilder {
 
     public JsonObject createJsonUserObject(User user) {

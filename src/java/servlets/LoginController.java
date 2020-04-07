@@ -85,7 +85,6 @@ public class LoginController extends HttpServlet {
                     }
                     break; 
                 }
-
                 Person person = null;
                 User user = null;
                 try {
@@ -96,7 +95,6 @@ public class LoginController extends HttpServlet {
                     user = new User(login, password, salts, true, person);
                     userFacade.create(user);
                 } catch (Exception e) {
-
                     if(person != null && person.getId() != null){
                         personFacade.remove(person);
                     }
@@ -113,7 +111,6 @@ public class LoginController extends HttpServlet {
                     }
                     break; 
                 }
-
                 job.add("actionStatus", "true")
                             .add("user","null")
                             .add("authStatus", "false")
@@ -130,7 +127,6 @@ public class LoginController extends HttpServlet {
                 password = jsonObject.getString("password");
                 if(null == login || "".equals(login)
                         || null == password || "".equals(password)){
-
                     job.add("actionStatus", "false")
                             .add("user","null")
                             .add("authStatus", "false")
