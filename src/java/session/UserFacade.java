@@ -1,11 +1,9 @@
-
 package session;
 
 import entity.User;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-
 
 @Stateless
 public class UserFacade extends AbstractFacade<User> {
@@ -31,5 +29,4 @@ public class UserFacade extends AbstractFacade<User> {
             return null;
         }
     }
-    
 }
