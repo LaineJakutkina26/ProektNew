@@ -71,6 +71,7 @@ public class LoginController extends HttpServlet {
                 String money = jsonObject.getString("money");
                 String login = jsonObject.getString("login");
                 String password = jsonObject.getString("password");
+
                 if (null == firstname || "".equals(firstname)
                         || null == firstname || "".equals(firstname)
                         || null == lastname || "".equals(lastname)
@@ -82,8 +83,7 @@ public class LoginController extends HttpServlet {
                         || null == room || "".equals(room)
                         || null == login || "".equals(login)
                         || null == password || "".equals(password)) {
-                    // если хотя бы одна переменная не инициирована
-                    // создаем строку в JSON формате и выходим из switch
+
                     job.add("actionStatus", "false")
                             .add("user", "null")
                             .add("authStatus", "false")
@@ -94,19 +94,18 @@ public class LoginController extends HttpServlet {
                     }
                     break;
                 }
-                // ----------- конец проверки -----------
-                // -------- Дальше работаем с валидными данными --------
+
                 Person person = null;
                 User user = null;
-                try {// защищаем запись в базу от возможных ошибок
+                try {
                     person = new Person(firstname, lastname, email, city, street, house, room, Integer.parseInt(money));
                     personFacade.create(person);
                     String salts = ep.createSalts();
-                    password = ep.setEncriptPass(password, salts);
+                    password = ep.setEncryptPass(password, salts);
                     user = new User(login, password, salts, true, person);
                     userFacade.create(user);
                 } catch (Exception e) {
-                    // чтобы уйти от обращения к несуществующему объекту проверим его на существование
+
                     if (person != null && person.getId() != null) {
                         personFacade.remove(person);
                     }
@@ -123,7 +122,6 @@ public class LoginController extends HttpServlet {
                     }
                     break;
                 }
-                //проверки пройдены, user и person созданы
                 job.add("actionStatus", "true")
                         .add("user", "null")
                         .add("authStatus", "false")
@@ -162,7 +160,7 @@ public class LoginController extends HttpServlet {
                     }
                     break;
                 }
-                password = ep.setEncriptPass(password, user.getSalts());
+                password = ep.setEncryptPass(password, user.getSalts());
                 if (!password.equals(user.getPassword())) {
                     job.add("actionStatus", "false")
                             .add("user", "null")
@@ -213,6 +211,7 @@ public class LoginController extends HttpServlet {
                 }
                 break;
         }
+
         if (json != null && !"".equals(json)) {
             try (PrintWriter out = response.getWriter()) {
                 out.println(json);
@@ -259,4 +258,5 @@ public class LoginController extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
 }

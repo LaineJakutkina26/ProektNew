@@ -1,13 +1,9 @@
 package entity;
 
 import java.io.Serializable;
-import java.sql.Blob;
-import java.sql.Clob;
-import java.sql.SQLException;
 import java.util.Date;
 import java.util.Objects;
 import javax.persistence.Basic;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -28,7 +24,6 @@ public class Book implements Serializable {
     private Integer price;
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date dateAdded;
-    private Integer quantity;
     private boolean active;
     @Basic(fetch = FetchType.LAZY)
     @Lob
@@ -96,14 +91,6 @@ public class Book implements Serializable {
         this.price = price;
     }
 
-    public Integer getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
-    }
-
     public Date getDateAdded() {
         return dateAdded;
     }
@@ -127,7 +114,6 @@ public class Book implements Serializable {
         hash = 29 * hash + Objects.hashCode(this.name);
         hash = 29 * hash + Objects.hashCode(this.author);
         hash = 29 * hash + Objects.hashCode(this.publishedYear);
-        hash = 29 * hash + Objects.hashCode(this.quantity);
         hash = 29 * hash + Objects.hashCode(this.price);
         hash = 29 * hash + Objects.hashCode(this.dateAdded);
         hash = 29 * hash + (this.active ? 1 : 0);
@@ -161,9 +147,6 @@ public class Book implements Serializable {
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }
-        if (!Objects.equals(this.quantity, other.quantity)) {
-            return false;
-        }
         if (!Objects.equals(this.price, other.price)) {
             return false;
         }
@@ -175,10 +158,10 @@ public class Book implements Serializable {
 
     @Override
     public String toString() {
-        return "Book{" + "id=" + id + ", name=" + name + ", author=" + author + ", publishedYear=" + publishedYear + ", quantity=" + quantity + ", price=" + price + ", dateAdded=" + dateAdded + ", active=" + active + '}';
+        return "Book{" + "id=" + id + ", name=" + name + ", author=" + author + ", publishedYear=" + publishedYear + ", price=" + price + ", dateAdded=" + dateAdded + ", active=" + active + '}';
     }
 
-    public byte[] getTextBookInBytes() {
+    public byte[] getTextBookInBytess() {
         return textBookInBytes;
     }
 
@@ -202,4 +185,9 @@ public class Book implements Serializable {
     public void setCoverUrl(String coverUrl) {
         this.coverUrl = coverUrl;
     }
+
+    private String getTextBookInBytes() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
 }

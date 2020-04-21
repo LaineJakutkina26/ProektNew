@@ -27,14 +27,12 @@ import session.PersonFacade;
 @WebServlet(name = "UserController", urlPatterns = {
     "/createBook",
     "/buyBook",
-    "/readBook",})
+    "/readBook",
+    
+})
 public class UserController extends HttpServlet {
-
-    @EJB
-    private BookFacade bookFacade;
-    @EJB
-    private PersonFacade personFacade;
-
+@EJB private BookFacade bookFacade;
+@EJB private PersonFacade personFacade;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -50,33 +48,34 @@ public class UserController extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         String json = "";
         JsonObjectBuilder job = Json.createObjectBuilder();
+       
         HttpSession session = request.getSession(false);
-        if (session == null) {
+        if(session == null){
             job.add("actionStatus", "false")
-                    .add("user", "null")
-                    .add("authStatus", "false")
-                    .add("data", "null");
-            try (Writer writer = new StringWriter()) {
+                            .add("user","null")
+                            .add("authStatus", "false")
+                            .add("data", "null");
+            try (Writer writer = new StringWriter()){
                 Json.createWriter(writer).write(job.build());
                 json = writer.toString();
             }
-            if (json != null && !"".equals(json)) {
+            if(json != null && !"".equals(json)){
                 try (PrintWriter out = response.getWriter()) {
                     out.println(json);
                 }
             }
         }
         User user = (User) session.getAttribute("user");
-        if (user == null) {
+        if(user == null){
             job.add("actionStatus", "false")
-                    .add("user", "null")
-                    .add("authStatus", "false")
-                    .add("data", "null");
-            try (Writer writer = new StringWriter()) {
+                            .add("user","null")
+                            .add("authStatus", "false")
+                            .add("data", "null");
+            try (Writer writer = new StringWriter()){
                 Json.createWriter(writer).write(job.build());
                 json = writer.toString();
             }
-            if (json != null && !"".equals(json)) {
+            if(json != null && !"".equals(json)){
                 try (PrintWriter out = response.getWriter()) {
                     out.println(json);
                 }
@@ -84,7 +83,7 @@ public class UserController extends HttpServlet {
         }
         JsonUserBuilder jsonUserBuilder = new JsonUserBuilder();
         String path = request.getServletPath();
-        switch (path) {
+        switch (path){
             case "/createBook":
                 JsonReader jsonReader = Json.createReader(request.getReader());
                 JsonObject jsonObject = jsonReader.readObject();
@@ -94,94 +93,98 @@ public class UserController extends HttpServlet {
                 String coverUrl = jsonObject.getString("coverUrl");
                 String price = jsonObject.getString("price");
                 String textBook = jsonObject.getString("textBook");
-                if (null == name || "".equals(name)
+                if(null == name || "".equals(name)
                         || null == author || "".equals(author)
                         || null == publishedYear || "".equals(publishedYear)
                         || null == coverUrl || "".equals(coverUrl)
                         || null == price || "".equals(price)
-                        || null == textBook || "".equals(textBook)) {
+                        || null == textBook || "".equals(textBook)){
+
                     job.add("actionStatus", "false")
-                            .add("user", "null")
+                            .add("user","null")
                             .add("authStatus", "false")
                             .add("data", "null");
-                    try (Writer writer = new StringWriter()) {
+                    try (Writer writer = new StringWriter()){
                         Json.createWriter(writer).write(job.build());
                         json = writer.toString();
                     }
-                    break;
-                }
-                Book book = new Book(name,
-                        author,
-                        publishedYear,
-                        Integer.parseInt(price),
-                        Calendar.getInstance().getTime(),
-                        true,
-                        textBook.getBytes(),
-                        coverUrl
+                    break; 
+                }   
+
+                Book book = new Book(name, 
+                    author, 
+                    publishedYear,                                           
+                    Integer.parseInt(price),
+                    Calendar.getInstance().getTime(),
+                    true,
+                    textBook.getBytes(),
+                    coverUrl
                 );
                 bookFacade.create(book);
-
+                
                 job.add("actionStatus", "true")
                         .add("user", jsonUserBuilder.createJsonUserObject(user))
                         .add("authStatus", "true")
                         .add("data", "null");
-                try (Writer writer = new StringWriter()) {
+                try (Writer writer = new StringWriter()){
                     Json.createWriter(writer).write(job.build());
                     json = writer.toString();
                 }
                 break;
-
-            case "/readBook":
+            
+            case "/readBook":    
                 String bookId = request.getParameter("bookId");
                 book = bookFacade.find(Long.parseLong(bookId));
                 JsonBookBuilder jsonBookBuilder = new JsonBookBuilder();
                 StringBuffer textBookLimit = new StringBuffer();
                 textBookLimit.append(book.getTextBookLimit(20000));
                 job.add("actionStatus", "true")
-                        .add("user", "null")
+                        .add("user","null")
                         .add("authStatus", "true")
                         .add("data", textBookLimit.toString());
-                try (Writer writer = new StringWriter()) {
+                try (Writer writer = new StringWriter()){
                     Json.createWriter(writer).write(job.build());
                     json = writer.toString();
                 }
                 break;
-            case "/buyBook":
+            case "/buyBook":    
                 bookId = request.getParameter("bookId");
                 book = bookFacade.find(Long.parseLong(bookId));
                 Person person = personFacade.find(user.getPerson().getId());
-                if (person.getMoney() - book.getPrice() < 0) {
+                if(person.getMoney()-book.getPrice() < 0){
                     job.add("actionStatus", "false")
-                            .add("user", "null")
+                            .add("user","null")
                             .add("authStatus", "false")
                             .add("data", "null");
-                    try (Writer writer = new StringWriter()) {
+                    try (Writer writer = new StringWriter()){
                         Json.createWriter(writer).write(job.build());
                         json = writer.toString();
                     }
                     break;
                 }
-                person.setMoney(person.getMoney() - book.getPrice());
+                person.setMoney(person.getMoney()-book.getPrice());
                 personFacade.edit(person);
-                session.setAttribute("user", user);
+                session.setAttribute("user", user); 
                 jsonBookBuilder = new JsonBookBuilder();
                 StringBuilder sbTextBookFull = new StringBuilder();
                 sbTextBookFull.append(book.getTextBookFull());
                 job.add("actionStatus", "true")
-                        .add("user", jsonUserBuilder.createJsonUserObject(user))
-                        .add("authStatus", "true")
-                        .add("data", sbTextBookFull.toString());
-                try (Writer writer = new StringWriter()) {
+                            .add("user",jsonUserBuilder.createJsonUserObject(user))
+                            .add("authStatus", "true")
+                            .add("data", sbTextBookFull.toString());
+                try (Writer writer = new StringWriter()){
                     Json.createWriter(writer).write(job.build());
                     json = writer.toString();
                 }
                 break;
+                
         }
-        if (json != null && !"".equals(json)) {
+
+        if(json != null && !"".equals(json)){
             try (PrintWriter out = response.getWriter()) {
                 out.println(json);
             }
-
+            
         }
     }
 
@@ -223,4 +226,5 @@ public class UserController extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
 }

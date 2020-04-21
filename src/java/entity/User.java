@@ -11,7 +11,6 @@ import javax.persistence.OneToOne;
 
 @Entity
 public class User implements Serializable {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -25,7 +24,7 @@ public class User implements Serializable {
 
     public User() {
     }
-
+    // getttres and setters
     public User(String login, String password, String salts, boolean active, Person person) {
         this.login = login;
         this.password = password;
@@ -129,14 +128,13 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return "User{"
-                + "id=" + id
-                + ", login=" + login
-                + ", password=" + password
-                + ", salts=" + salts
-                + ", active=" + active
+        return "User{" 
+                + "id=" + id 
+                + ", login=" + login 
+                + ", password=" + password 
+                + ", salts=" + salts 
+                + ", active=" + active 
                 + ", person=" + person.getFirstname()
                 + " " + person.getLastname()
                 + '}';
-    }
-}
+    }}

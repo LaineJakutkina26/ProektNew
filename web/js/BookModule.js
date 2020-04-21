@@ -160,7 +160,7 @@ class BookModule{
       httpModule.http(url,'GET')
                 .then(function(response){
                   if(response === null || response === undefined){
-                    document.getElementById('info').innerHTML='Ошибна на сервере';
+                    document.getElementById('info').innerHTML='Ошибка на сервере';
                     return;
                   }
                   if(response.authStatus === 'false'){
